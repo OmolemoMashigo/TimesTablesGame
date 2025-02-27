@@ -36,7 +36,16 @@ struct ContentView: View {
     var gameView: some View{
         VStack{
             if currentQuestion < questions.count{
+                Text(questions[currentQuestion].question)
                 
+                TextField("Your answer:", value: $userAnswers[currentQuestion], formatter: NumberFormatter())
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .keyboardType(.numberPad)
+                    .padding()
+                
+                Button("Submit"){
+                    checkAnswer()
+                }
             }
             else{
                 Button("Play Again") {
@@ -67,11 +76,22 @@ struct ContentView: View {
     }
     
     func startGame(){
+        questions = generateQuestions()
+        currentQuestion = 0
+        score = 0
+        userAnswers = Array(repeating: 0, count: questions.count) //initialise all the user's answers to 0
         isGameActive = true
     }
 
     func resetGame(){
         isGameActive = false
+    }
+    
+    func checkAnswer(){
+        if userAnswers[currentQuestion] == questions[currentQuestion].answer{
+            score += 1
+        }
+        currentQuestion += 1
     }
     
     func generateQuestions() -> [Questions]{
