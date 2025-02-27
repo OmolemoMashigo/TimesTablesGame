@@ -47,9 +47,22 @@ struct ContentView: View {
     }
     
     var settingsView: some View{
-        Group {
-            Text("Hello")
-            Text("Settings")
+        VStack{
+            Stepper("times tables up to \(selectedTables)", value: $selectedTables, in: 2...12)
+                .padding()
+            
+            Picker("Number of questions", selection: $numberOfQuestions){
+                Text("5").tag(5)
+                Text("10").tag(10)
+                Text("15").tag(15)
+                Text("20").tag(20)
+            }
+            .pickerStyle(.segmented)
+            .padding()
+            
+            Button("Start Game"){
+                startGame()
+            }
         }
     }
     
