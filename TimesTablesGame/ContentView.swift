@@ -14,6 +14,8 @@ struct ContentView: View {
     @State private var numberOfQuestions = 5
     @State private var currentQuestion = 0
     @State private var score = 0
+    @State private var questions: [Questions] = []
+    @State private var userAnswers: [Int] = []
     
     struct Questions{
         let question: String
@@ -32,9 +34,15 @@ struct ContentView: View {
     }
     
     var gameView: some View{
-        Group {
-            Text("Hello")
-            Text("Game")
+        VStack{
+            if currentQuestion < questions.count{
+                
+            }
+            else{
+                Button("Play Again") {
+                    resetGame()
+                }
+            }
         }
     }
     
@@ -44,7 +52,33 @@ struct ContentView: View {
             Text("Settings")
         }
     }
+    
+    func startGame(){
+        isGameActive = true
+    }
+
+    func resetGame(){
+        isGameActive = false
+    }
+    
+    func generateQuestions() -> [Questions]{
+        var questions: [Questions] = []
+        
+        for _ in 0..<numberOfQuestions{
+            let num1 = Int.random(in: 2...selectedTables)
+            let num2 = Int.random(in: 2...12)
+            
+            let question = "what is \(num1) x \(num2) ?"
+            let answer = num1 * num2
+            
+            questions.append(Questions(question: question, answer: answer))
+            
+        }
+        return questions
+    }
 }
+
+
 
 #Preview {
     ContentView()
